@@ -37,19 +37,16 @@ learning methods.
 # Project Structure
 .
 ├── code/
-│ └── DL raw.py # Main implementation
-│
+│   └── DL_raw.py
 ├── data/
-│ └── train_contrats.csv # Insurance contract dataset
-│
+│   └── train_contrats.csv
 ├── figures/
-│ ├── Number_of_clusters_identification.png
-│ ├── PDP_&_ICE_plots.png
-│ └── SHAP_Waterfall_plots.png
-│
+│   ├── clusters.png
+│   ├── PDP_ICE.png
+│   └── SHAP.png
 ├── report/
-│ └── DL_project.pdf # Detailed project report
-│
+│   └── DL_project.pdf
+├── requirements.txt
 ├── LICENSE
 └── README.md
 
