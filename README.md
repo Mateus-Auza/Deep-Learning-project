@@ -1,4 +1,4 @@
-# Motor Insurance Claim Frequency Modeling using Deep Learning
+# Motor Insurance Claim Frequency Modeling: Statistical Learning, Deep Learning and Portfolio Segmentation
 
 ## Overview
 
@@ -13,6 +13,24 @@ The objective is to model claim frequency while accounting for exposure (`Exposi
 - Model interpretability techniques (PDP, ICE, LIME, SHAP)
 
 The project investigates the trade-off between predictive performance, interpretability, and portfolio segmentation.
+
+---
+## Results Preview
+
+![SHAP explanations](figures/SHAP_Waterfall_plots.png)
+
+![Cluster segmentation](figures/Number_of_clusters_identification.png)
+
+---
+
+## Business Context
+
+Claim frequency modeling is a core task in actuarial pricing.
+Accurate prediction of claim counts allows insurers to better estimate risk,
+segment portfolios, and improve pricing decisions.
+
+The project compares traditional actuarial approaches with modern machine
+learning methods.
 
 ---
 
@@ -80,8 +98,6 @@ Main preprocessing steps:
 - One-hot encoding of categorical variables
 
 - Train/validation split (80/20)
-
----
 
 ---
 
@@ -206,8 +222,8 @@ figures/Number_of_clusters_identification.png
 
 Main conclusions:
 
-- Neural networks improve prediction slightly by capturing nonlinear effects.
-- GLMs remain competitive because of their interpretability and stability.
+- Neural networks captured nonlinear relationships and achieved the best predictive performance among tested models.
+- The improvement over the GLM baseline was limited, highlighting the importance of interpretability in insurance applications.
 - Portfolio segmentation reveals meaningful risk groups.
 - Complexity does not always translate into better insurance pricing models.
 
