@@ -1,128 +1,251 @@
-# Forecasting International Visitors to Australia Using SARIMA Models (1985–2005)
+# Motor Insurance Claim Frequency Modeling using Deep Learning
 
 ## Overview
 
-This project analyzes monthly international visitor arrivals to Australia from 1985 to 2005 using Seasonal Autoregressive Integrated Moving Average (SARIMA) models.
+This project focuses on predicting the number of insurance claims (`nombre_de_sinistre`) for a motor fleet insurance portfolio.
 
-The objective is to identify the underlying trend and seasonal patterns in the data and develop a forecasting model capable of producing accurate future predictions.
+The objective is to model claim frequency while accounting for exposure (`Exposition_au_risque`) and compare different statistical and machine learning approaches:
 
-## Forecast
+- Generalized Linear Model (Poisson GLM)
+- Neural Networks
+- Autoencoders / Variational Autoencoders
+- K-means clustering
+- Model interpretability techniques (PDP, ICE, LIME, SHAP)
 
-![Forecast](figures/Forecast_SARIMA_model.png)
+The project investigates the trade-off between predictive performance, interpretability, and portfolio segmentation.
 
-## Dataset
+---
 
-The dataset is provided in:
-
-```text
-data/australia_visitors_1985_2005.txt
-```
-
-It contains monthly observations of international visitor arrivals to Australia between 1985 and 2005.
-
-## Methodology
-
-The analysis follows the standard Box–Jenkins approach:
-
-1. Exploratory Data Analysis (EDA)
-
-   * Visualization of the time series
-   * Identification of trend and seasonality
-
-2. Data Transformation
-
-   * Logarithmic transformation for variance stabilization
-   * First-order differencing
-   * Seasonal differencing (period = 12)
-
-3. Model Selection
-
-   * Examination of ACF and PACF plots
-   * Estimation of several SARIMA models
-   * Comparison using AIC and BIC
-
-4. Diagnostic Checking
-
-   * Residual analysis
-   * Ljung–Box tests
-   * Normality assessment using QQ-plots
-
-5. Forecasting
-
-   * Rolling one-step-ahead evaluation
-   * Generation of future forecasts with prediction intervals
-
-## Selected Model
-
-The final model selected is:
-
-SARIMA(0,1,1)(1,1,1)[12]
-
-This specification provided the best balance between model fit, forecasting performance, and parsimony.
-
-## Main Results
-
-* Strong upward trend detected.
-* Clear annual seasonality with period 12.
-* Log transformation successfully stabilized variance.
-* Residual diagnostics indicated no significant autocorrelation.
-* Forecasts preserve the historical seasonal pattern.
-* Mean Squared Prediction Error (MSPE): approximately 0.0034.
-
-## Repository Structure
-
-```text
+# Project Structure
 .
+├── code/
+│ └── DL raw.py # Main implementation
+│
 ├── data/
-│   └── 15.txt
-├── analysis/
-│   └── time_series_analysis.qmd
+│ └── train_contrats.csv # Insurance contract dataset
+│
 ├── figures/
-│   ├── ACF_PACF_plots.png
-│   ├── Forecast_SARIMA_model.png
-│   ├── Stationary_time_series.png
-│   └── Time_series_plot.png
+│ ├── Number_of_clusters_identification.png
+│ ├── PDP_&_ICE_plots.png
+│ └── SHAP_Waterfall_plots.png
+│
 ├── report/
-│   └── time_series_report.pdf
+│ └── DL_project.pdf # Detailed project report
+│
+├── LICENSE
 └── README.md
-```
 
-## Requirements
+---
+# Dataset
 
-R packages used:
+The dataset contains motor insurance contracts with information about:
 
-```r
-forecast
-tseries
-ggplot2
-TSA
-```
+- Contract characteristics
+- Vehicle characteristics
+- Policyholder information
+- Exposure duration
+- Claim history
 
-Install them with:
+The target variable is:
+- *nombre_de_sinistre*
 
-```r
-install.packages(c(
-  "forecast",
-  "tseries",
-  "ggplot2",
-  "TSA"
-))
-```
+representing the number of claims.
 
-## Running the Analysis
+The exposure variable:
+- *Exposition_au_risque*
 
-Render the Quarto document:
+is used to properly model claim frequency.
+
+---
+
+# Methodology
+
+## 1. Data preprocessing
+
+Main preprocessing steps:
+
+- Date feature extraction
+    - contract start year
+    - contract start month
+    - contract duration
+
+- Numerical transformations
+    - insured value transformation
+    - vehicle age conversion
+
+- Feature selection
+    - removal of identifiers
+    - removal of non-informative variables
+
+- One-hot encoding of categorical variables
+
+- Train/validation split (80/20)
+
+---
+
+---
+
+# Supervised Learning
+
+## Poisson GLM baseline
+
+A Poisson Generalized Linear Model is used as an actuarial benchmark.
+
+Characteristics:
+
+- Log link function
+- Exposure included as an offset
+- Highly interpretable model
+
+The GLM provides a strong baseline for comparison.
+
+---
+
+## Neural Networks
+
+Several neural network architectures were tested:
+
+- Single hidden layer network
+- Deeper networks
+- Dropout regularization
+- Higher-capacity models
+
+The best performing model was:
+
+**Neural Network Model 3**
+
+with dropout regularization.
+
+It achieved better predictive performance than the GLM while maintaining reasonable generalization.
+
+---
+
+# Model Interpretability
+
+To understand model predictions, several explainability techniques were applied:
+
+## PDP & ICE
+
+Partial Dependence Plots and Individual Conditional Expectation plots were used to analyze global feature effects.
+
+Main drivers identified:
+
+- Contract duration (`duration_days`)
+- Vehicle power (`ValeurPuissance`)
+- Management mode (`Mode_gestion_P`)
+
+See:
+
+figures/PDP_&_ICE_plots.png
+
+
+---
+
+## SHAP & LIME
+
+Local explanations were generated to understand individual policy predictions.
+
+Key finding:
+
+Contract duration is the strongest factor separating low-risk and high-risk policies.
+
+See:
+
+figures/SHAP_Waterfall_plots.png
+
+---
+
+# Unsupervised Learning
+
+## Autoencoders
+
+Autoencoders and Variational Autoencoders were trained to learn latent representations of insurance contracts.
+
+The analysis showed that standard autoencoders achieved better reconstruction performance.
+
+---
+
+## K-means clustering
+
+K-means was used to identify portfolio segments.
+
+The optimal number of clusters was determined using:
+
+- Elbow method
+- Silhouette score
+
+The selected solution:
+
+13 clusters
+
+
+Clusters revealed heterogeneous groups based on:
+
+- Vehicle characteristics
+- Contract type
+- Geographic zone
+- Policyholder profile
+
+Visualization:
+
+
+figures/Number_of_clusters_identification.png
+
+
+
+---
+
+# Results Summary
+
+| Model | Performance |
+|------|-------------|
+| Neural Network | Best predictive performance |
+| GLM | Strong benchmark + high interpretability |
+| Clustering | Useful for segmentation |
+| Baseline frequency model | Lowest performance |
+
+Main conclusions:
+
+- Neural networks improve prediction slightly by capturing nonlinear effects.
+- GLMs remain competitive because of their interpretability and stability.
+- Portfolio segmentation reveals meaningful risk groups.
+- Complexity does not always translate into better insurance pricing models.
+
+---
+
+# Installation
+
+Clone the repository:
 
 ```bash
-quarto render analysis/time_series_analysis.qmd
+git clone <repository-url>
+cd <repository-name>
+```
+Install dependencies:
+```bash
+pip install -r requirements.txt
 ```
 
-## Full Report
+## Running the project
 
-The complete report is available in:
+Execute:
+```bash
+python code/"DL raw.py"
+```
+Make sure the dataset is available:
 
-- [time_series_analysis_report.pdf](report/time_series_report.pdf)
+data/train_contrats.csv
+
+## Report
+
+A complete explanation of the methodology, experiments, and results is available here:
+
+report/DL_project.pdf
 
 ## Author
 
 Mateus Auza Cruz
+
+Deep Learning Project
+2026
+
