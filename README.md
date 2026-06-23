@@ -38,7 +38,7 @@ learning methods.
 ```text
 .
 ├── code/
-│   └── DL_raw.py
+│   └── main.py
 ├── data/
 │   └── train_contrats.csv
 ├── figures/
@@ -46,7 +46,7 @@ learning methods.
 │   ├── PDP_ICE.png
 │   └── SHAP.png
 ├── report/
-│   └── DL_project.pdf
+│   └── claim_frequency_modelling_report.pdf
 ├── requirements.txt
 ├── LICENSE
 └── README.md
@@ -228,19 +228,14 @@ Main conclusions:
 Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/Mateus-Auza/motor-insurance-claim-frequency-modeling
+cd motor-insurance-claim-frequency-modeling
 ```
-Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
 ## Running the project
 
 Execute:
 ```bash
-python code/"DL raw.py"
+python code/"main.py"
 ```
 Make sure the dataset is available:
 
@@ -250,12 +245,12 @@ Make sure the dataset is available:
 
 A complete explanation of the methodology, experiments, and results is available here:
 
-- [DL_project.pdf](report/DL_project.pdf)
+- [claim_frequency_modelling_report.pdf](report/DL_claim_frequency_modelling_report.pdf)
 
 ## Author
 
 Mateus Auza Cruz
 
-Deep Learning Project
+Motor Insurance Claim Frequency Modeling Project
 2026
 
