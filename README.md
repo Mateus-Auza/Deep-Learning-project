@@ -255,7 +255,7 @@ Make sure the dataset is available:
 
 A complete explanation of the methodology, experiments, and results is available here:
 
-- [claim_frequency_modelling_report.pdf](report/DL_claim_frequency_modelling_report.pdf)
+- [claim_frequency_modeling_report.pdf](report/DL_claim_frequency_modeling_report.pdf)
 
 ## Author
 
