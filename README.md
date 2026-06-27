@@ -160,7 +160,7 @@ Main drivers identified:
 
 See:
 
-[PDP_&_ICE_plots.png](figures/PDP_&_ICE_plots.png)
+- [PDP_&_ICE_plots.png](figures/PDP_&_ICE_plots.png)
 
 
 ---
@@ -175,7 +175,7 @@ Contract duration is the strongest factor separating low-risk and high-risk poli
 
 See:
 
-[SHAP_Waterfall_plots.png](figures/SHAP_Waterfall_plots.png)
+- [SHAP_Waterfall_plots.png](figures/SHAP_Waterfall_plots.png)
 
 ---
 
